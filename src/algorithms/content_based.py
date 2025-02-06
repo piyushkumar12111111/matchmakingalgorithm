@@ -43,10 +43,15 @@ class ContentBasedRecommender:
             audience_match = self._calculate_audience_similarity(brand, influencer)
             performance_score = self._calculate_performance_score(influencer)
             
+            # Calculate sentiment score
+            sentiment_score = self._calculate_sentiment_score(influencer)
+            
+            # Adjust final score to include sentiment analysis
             final_score = (
-                content_similarity * 0.4 +
-                audience_match * 0.3 +
-                performance_score * 0.3
+                content_similarity * 0.35 +
+                audience_match * 0.25 +
+                performance_score * 0.25 +
+                sentiment_score * 0.15
             )
             scores.append((influencer, final_score))
         
@@ -63,3 +68,11 @@ class ContentBasedRecommender:
         authenticity_score = influencer.authenticity_score
         
         return (engagement_score * 0.4 + quality_score * 0.3 + authenticity_score * 0.3)
+
+    def _calculate_sentiment_score(self, influencer: Influencer) -> float:
+        positive_score = influencer.sentiment_scores.get('positive', 0)
+        neutral_score = influencer.sentiment_scores.get('neutral', 0)
+        negative_score = influencer.sentiment_scores.get('negative', 0)
+        
+        # Simple weighted average of sentiment scores
+        return (positive_score * 0.5 + neutral_score * 0.3 - negative_score * 0.2)
