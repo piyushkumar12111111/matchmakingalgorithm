@@ -3,6 +3,7 @@ from src.algorithms.hybrid_recommender import HybridRecommender
 from src.models.brand import Brand
 from src.models.influencer import Influencer
 from src.services.preprocessing_service import PreprocessingService
+from src.config import GEMINI_API_KEY
 
 
 def main():
@@ -10,14 +11,14 @@ def main():
     brand = Brand(
         id="b1",
         name="SportsFit",
-        industry="Sports & Fitness",
+        industry="Technology",
         target_audience=["18-24", "25-34"],
         budget_range=(1000, 5000),
-        preferred_platforms=["Instagram", "TikTok"],
-        min_followers=10000,
-        content_themes=["fitness", "health", "lifestyle"],
+        preferred_platforms=["Facebook", "TikTok"],
+        min_followers=100000,
+        content_themes=["Technology", "AI", "Data science"],
         engagement_rate_threshold=0.05,
-        brand_values=["health", "motivation", "community"],
+        brand_values=["Technology", "Teamwork"],
         seasonal_preferences={"summer": 0.8, "winter": 0.6}
     )
     
@@ -25,36 +26,36 @@ def main():
     influencers = [
         Influencer(
             id="i1",
-            name="FitGuru",
+            name="TechGuru",
             platforms={
-                "Instagram": "instagram.com/fitguru",
-                "TikTok": "tiktok.com/fitguru"
+                "Instagram": "instagram.com/techguru",
+                "TikTok": "tiktok.com/techguru"
             },
             follower_counts={
-                "Instagram": 50000,
-                "TikTok": 75000
+                "Facebook": 50000000,
+                "TikTok": 750000000
             },
             engagement_rates={
-                "Instagram": 0.06,
-                "TikTok": 0.08
+                "Instagram": 0.6,
+                "TikTok": 0.8
             },
-            content_categories=["fitness", "health", "nutrition"],
+            content_categories=["Machine Learning", "Data Science", "Artificial intelligence","Technology", "AI", "Data science"],
             audience_demographics={
-                "18-24": 40.0,
-                "25-34": 35.0,
-                "35-44": 25.0
+                "18-24": 99.0,
+                "25-34": 99.0
+     
             },
             location="New York",
             previous_collaborations=[
-                {"brand": "Nike", "success_score": 0.9},
-                {"brand": "Under Armour", "success_score": 0.85}
+                {"brand": "Adobe", "success_score": 0.9},
+                {"brand": "Google", "success_score": 0.85}
             ],
             average_post_rate=15,
-            pricing_tier=(1500, 3000),
+            pricing_tier=(1000, 5000),
             content_quality_score=0.85,
             authenticity_score=0.9,
-            growth_rate={"followers": 0.05, "engagement": 0.02},
-            sentiment_scores={"positive": 0.8, "neutral": 0.15, "negative": 0.05}
+            growth_rate={"followers": 0.5, "engagement": 0.2},
+            sentiment_scores={"positive": 0.8, "neutral": 0.95, "negative": 0.95}
         ),
         Influencer(
             id="i2",
@@ -64,12 +65,12 @@ def main():
                 "YouTube": "youtube.com/healthylifestyle"
             },
             follower_counts={
-                "Instagram": 80000,
-                "YouTube": 100000
+                "Instagram": 8,
+                "YouTube": 10
             },
             engagement_rates={
-                "Instagram": 0.05,
-                "YouTube": 0.07
+                "Instagram": 0.00005,
+                "YouTube": 0.00007
             },
             content_categories=["health", "lifestyle", "wellness"],
             audience_demographics={
@@ -96,15 +97,15 @@ def main():
         {
             "brand_id": "b1",
             "influencer_id": "i1",
-            "success_score": 0.9,
-            "engagement_rate": 0.08,
-            "roi": 2.5
+            "success_score": 0.99,
+            "engagement_rate": 0.88,
+            "roi": 92.5
         },
         {
             "brand_id": "b1",
             "influencer_id": "i2",
-            "success_score": 0.85,
-            "engagement_rate": 0.07,
+            "success_score": 0.0005,
+            "engagement_rate": 0.0007,
             "roi": 2.2
         }
     ]
@@ -116,7 +117,7 @@ def main():
     cleaned_history = preprocessing_service.clean_collaboration_history(collaboration_data)
     
 
-    recommender = HybridRecommender()
+    recommender = HybridRecommender(llm_api_key=GEMINI_API_KEY)
     recommender.train(cleaned_history)
     
 
@@ -125,7 +126,7 @@ def main():
 
     print("\nTop Recommended Influencers:")
     print("-" * 50)
-    for influencer, score in recommendations:
+    for influencer, score, reasoning in recommendations:
         print(f"\nInfluencer: {influencer.name}")
         print(f"Match Score: {score:.2f}")
         print(f"Platforms: {', '.join(influencer.platforms.keys())}")
@@ -133,6 +134,7 @@ def main():
         print(f"Average Engagement Rate: {np.mean(list(influencer.engagement_rates.values())):.2%}")
         print(f"Content Quality Score: {influencer.content_quality_score:.2f}")
         print(f"Location: {influencer.location}")
+        print(f"LLM Analysis: {reasoning}")
         print("-" * 50)
 
 if __name__ == "__main__":

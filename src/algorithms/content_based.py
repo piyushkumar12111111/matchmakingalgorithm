@@ -36,22 +36,27 @@ class ContentBasedRecommender:
         )
 
     def get_recommendations(self, brand: Brand, influencers: List[Influencer], 
-                          top_n: int = 10) -> List[tuple]:
+                            top_n: int = 10, weightages: Dict[str, float] = None) -> List[tuple]:
+        if weightages is None:
+            weightages = {
+                'content_similarity': 0.35,
+                'audience_match': 0.25,
+                'performance_score': 0.25,
+                'sentiment_score': 0.15
+            }
+        
         scores = []
         for influencer in influencers:
             content_similarity = self._calculate_content_similarity(brand, influencer)
             audience_match = self._calculate_audience_similarity(brand, influencer)
             performance_score = self._calculate_performance_score(influencer)
-            
-            # Calculate sentiment score
             sentiment_score = self._calculate_sentiment_score(influencer)
             
-            # Adjust final score to include sentiment analysis
             final_score = (
-                content_similarity * 0.35 +
-                audience_match * 0.25 +
-                performance_score * 0.25 +
-                sentiment_score * 0.15
+                content_similarity * weightages['content_similarity'] +
+                audience_match * weightages['audience_match'] +
+                performance_score * weightages['performance_score'] +
+                sentiment_score * weightages['sentiment_score']
             )
             scores.append((influencer, final_score))
         
@@ -74,5 +79,4 @@ class ContentBasedRecommender:
         neutral_score = influencer.sentiment_scores.get('neutral', 0)
         negative_score = influencer.sentiment_scores.get('negative', 0)
         
-        # Simple weighted average of sentiment scores
         return (positive_score * 0.5 + neutral_score * 0.3 - negative_score * 0.2)
