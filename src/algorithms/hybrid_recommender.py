@@ -139,12 +139,12 @@ class HybridRecommender:
         top_n: int = 10,
         weightages: Optional[Dict[str, float]] = None,
         content_weightages: Optional[Dict[str, float]] = None
-    ) -> List[Tuple[Influencer, float, str]]:  # Modified return type
+    ) -> List[Tuple[Influencer, float, str]]: 
 
         weights = weightages or self.default_weights
         content_weights = content_weightages or self.content_weights
         
-        # Get base recommendations from each component
+      
         content_based_recs = self.content_based.get_recommendations(
             brand, influencers, len(influencers), content_weights
         )

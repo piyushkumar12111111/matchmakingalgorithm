@@ -1,0 +1,50 @@
+# Python development artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+bin/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# Version control
+.git
+.gitignore
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+.DS_Store
+
+# Test files
+test/
+tests/
+*_test.py
+*_tests.py
+
+# Documentation
+docs/
+*.md
+README*
+
+# Local development configurations
+*.log
+.env*
+.python-version
