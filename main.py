@@ -10,16 +10,16 @@ def main():
 
     brand = Brand(
         id="b1",
-        name="SportsFit",
+        name="TechGrowth",
         industry="Technology",
         target_audience=["18-24", "25-34"],
-        budget_range=(1000, 5000),
-        preferred_platforms=["Facebook", "TikTok"],
-        min_followers=100000,
-        content_themes=["Technology", "AI", "Data science"],
-        engagement_rate_threshold=0.05,
-        brand_values=["Technology", "Teamwork"],
-        seasonal_preferences={"summer": 0.8, "winter": 0.6}
+        budget_range=(5000, 15000),
+        preferred_platforms=["YouTube", "TikTok"],
+        min_followers=200000,
+        content_themes=["Technology", "Startups", "Innovation"],
+        engagement_rate_threshold=0.06,
+        brand_values=["Innovation", "Growth", "Technology"],
+        seasonal_preferences={"all": 1.0}
     )
     
 
