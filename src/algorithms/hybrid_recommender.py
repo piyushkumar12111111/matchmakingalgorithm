@@ -140,19 +140,7 @@ class HybridRecommender:
         weightages: Optional[Dict[str, float]] = None,
         content_weightages: Optional[Dict[str, float]] = None
     ) -> List[Tuple[Influencer, float, str]]:  # Modified return type
-        """
-        Get hybrid recommendations with scores and reasoning.
-        
-        Args:
-            brand: Target brand
-            influencers: List of candidate influencers
-            top_n: Number of recommendations to return
-            weightages: Custom weights for hybrid components
-            content_weightages: Custom weights for content-based components
-        
-        Returns:
-            List of tuples containing (Influencer, final_score, reasoning)
-        """
+
         weights = weightages or self.default_weights
         content_weights = content_weightages or self.content_weights
         
@@ -164,10 +152,10 @@ class HybridRecommender:
             brand, influencers, len(influencers)
         )
         
-        # Create a mapping of influencer ID to their comprehensive scores
+
         recommendations = {}
         
-        # Process all influencers
+
         for influencer in influencers:
             
             content_details = self._get_content_based_details(brand, influencer)
